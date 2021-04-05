@@ -1,10 +1,9 @@
 package impl
 
 import (
-	"github.com/graphql-go/graphql"
-	"github.com/graphql-go/handler"
-	"log"
 	"net/http"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type Server struct {
@@ -13,10 +12,8 @@ type Server struct {
 }
 
 func (srv *Server) Run() {
+	log.Infof("gateway service starting on http://%s/query ...", srv.AddressHttp)
+
 	http.Handle("/query", getGraphqlHandler())
 	log.Fatal(http.ListenAndServe(srv.AddressHttp, nil))
-}
-
-func getGraphqlHandler() http.Handler {
-	schema, err := graphql.NewSchema()
 }
